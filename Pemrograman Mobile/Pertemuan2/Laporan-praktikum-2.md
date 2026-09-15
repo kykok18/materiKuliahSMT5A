@@ -12,15 +12,17 @@ Mahasiswa mampu :
 - Download dan install node.js di alamat https://nodejs.org/en/download
 - konfirmmasi versi node.js
 - node -v
+<br>
 <img src="node-version.png" width="50%">
 <br>
-![alt text](node-version.png)
+
 
 - konfirmasi versi npm
 - npm -v
+<br>
 <img src="npm-version.png" width="50%">
 <br>
-![alt text](npm-version.png)
+
 
 2. Membuat Aplikasi Mobile (React Native)
 - Untuk Referensi Dokumentasi Resmi milik Expo
@@ -28,10 +30,33 @@ Mahasiswa mampu :
 - untuk Referensi Dokumentasi Resmi milik React Native
 - https://reacnative.dev/
 - Memulai membuat projek baru dengan Framework Espo Go
+- perubahan direktori ke folder ke praktik (Pemrograman Mobile->Pertemuan-2)
 - npx create-expo-app ptmn2 --template blank
+<br>
+<img src="project-is-ready.png" width= "50%" >
+<br>
+
 
 3. Menjalankan Aplikasi Mobile (React Native)
 - cd ptmn2
 - npx expo start
 - install expo go via playstore
-- 
+- menginstal Expo pergi melalui app store
+- Buka dan Scan QR Code Via Expo Go
+- Running via Web Browser Emulator
+- ctrl+c untuk menghetikan server
+- sebelumnya install (npx expo install react-dom react-native-web)
+- npx expo start --web 
+<br>
+<img src= "mobile-iPhone_17_Pro_Max.png" width="50%" >
+
+
+4. Tugas Praktikum Pemrograman Seluler (React Native)
+- Menambagkan CV sederhana dengan React Native
+- Nama Lengkap
+- NIM
+- Asal Sekolah
+- Cita-cita
+- Rencana Mencapai Cita-cita
+
+![alt text](image.png)
