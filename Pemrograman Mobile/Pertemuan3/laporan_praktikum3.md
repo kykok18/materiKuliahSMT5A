@@ -125,7 +125,7 @@ Setelah menyelesaikan praktikum ini, mahasiswa mampu:
 ### Langkah 12 : Verifikasi & Pengujian
 
 1. Menjalankan aplikasi untuk memastikan seluruh komponen dan fitur dapat digunakan dengan baik
-2. Melakukan pengujian terhadap tampilan profil, scrolling, switch, daftar skills, riwayat, form kontak, modal, dan tombol sosial media
+2. Melakukan pengujian terhadap tampilan profil, scrolling, switch, daftar skills, riwayat, form kontak, modal, dan tombol sosial media.
 3. Hasil pengujian disesuaikan dengan fungsi yang telah dibuat pada aplikasi
 
-![alt text](praktikum.gif)
+![alt text](praktikumkiki.gif)
