@@ -1,4 +1,305 @@
-// ==========================================
+import React, { useState, useEffect, useRef } from "react";
+import { StatusBar } from "expo-status-bar";
+
+import {
+  View,
+  Text,
+  ScrollView,
+  FlatList,
+  SectionList,
+  TextInput,
+  Button,
+  TouchableOpacity,
+  Pressable,
+  Switch,
+  Modal,
+  ActivityIndicator,
+  SafeAreaView,
+  StyleSheet,
+  Alert,
+  Platform,
+  KeyboardAvoidingView,
+  Animated,
+} from "react-native";
+
+// ============================================
+// DATA PROFIL
+// ============================================
+
+const PROFILE = {
+  name: "Rizky Fadilah",
+  title: "Informatics Student",
+  email: "fadilrizky810@gmail.com",
+  phone: "083116544267",
+  location: "Kuningan, Jawa Barat",
+  bio: "Mahasiswa Informatika yang berminat atau tertarik dengan pengembangan website dan aplikasi mobile.",
+  avatar: require("./assets/foto_orang_ganteng.jpeg"),
+};
+
+// ============================================
+// DATA SKILLS
+// ============================================
+
+const SKILLS = [
+  {
+    id: "1",
+    name: "HTML & CSS",
+    level: 85,
+    color: "#E44D26",
+  },
+  {
+    id: "2",
+    name: "PHP",
+    level: 80,
+    color: "#777BB4",
+  },
+  {
+    id: "3",
+    name: "MySQL",
+    level: 75,
+    color: "#4479A1",
+  },
+  {
+    id: "4",
+    name: "JavaScript",
+    level: 60,
+    color: "#F7DF1E",
+  },
+  {
+    id: "5",
+    name: "React Native",
+    level: 60,
+    color: "#61DAFB",
+  },
+];
+
+// ============================================
+// DATA RIWAYAT
+// ============================================
+
+const SECTIONS = [
+  {
+    title: "💼 Pengalaman / Organisasi",
+    data: [
+      {
+        id: "e1",
+        role: "Anggota Organisasi",
+        company: "Organisasi Kampus",
+        period: "2024 - Sekarang",
+        desc: "Mengikuti kegiatan organisasi dan terlibat dalam berbagai kegiatan kampus.",
+      },
+      {
+        id: "e2",
+        role: "Web Developer",
+        company: "Web Kelas Angkatan 2 A",
+        period: "2026",
+        desc: "Membuat website kelas menggunakan Laravel dan Node.js.",
+      },
+    ],
+  },
+  {
+    title: "🎓 Pendidikan",
+    data: [
+      {
+        id: "p1",
+        role: "S1 Informatika",
+        company: "UIN Siber Syekh Nurjati Cirebon",
+        period: "2024 - Sekarang",
+        desc: "Mempelajari pemrograman, basis data, pengembangan web, mobile, jaringan, dan teknologi informasi.",
+      },
+    ],
+  },
+];
+
+// ============================================
+// DATA SOSIAL MEDIA
+// ============================================
+
+const SOCIAL = [
+  {
+    id: "s1",
+    label: "GitHub",
+    icon: "🧑‍💻",
+    url: "https://github.com/kykok18",
+  },
+  {
+    id: "s2",
+    label: "LinkedIn",
+    icon: "💼",
+    url: "https://www.linkedin.com/in/rizky-fadilah-11bb06381/",
+  },
+  {
+    id: "s3",
+    label: "Portfolio",
+    icon: "🌐",
+    url: "https://fulan.dev",
+  },
+];
+
+// ============================================
+// COMPONENT SKILL CARD
+// ============================================
+
+const SkillCard = ({ item }) => (
+  <View style={styles.skillCard}>
+    <View style={styles.skillHeader}>
+      <Text style={styles.skillName}>{item.name}</Text>
+
+      <Text style={styles.skillPercent}>{item.level}%</Text>
+    </View>
+
+    <View style={styles.progressBg}>
+      <View
+        style={[
+          styles.progressFill,
+          {
+            width: `${item.level}%`,
+            backgroundColor: item.color,
+          },
+        ]}
+      />
+    </View>
+  </View>
+);
+
+// ============================================
+// COMPONENT TIMELINE CARD
+// ============================================
+
+const TimelineCard = ({ item, onPress }) => (
+  <TouchableOpacity
+    style={styles.timelineCard}
+    onPress={() => onPress(item)}
+    activeOpacity={0.75}
+  >
+    <View style={styles.timelineDot} />
+
+    <View style={styles.timelineContent}>
+      <Text style={styles.timelineRole}>{item.role}</Text>
+
+      <Text style={styles.timelineCompany}>{item.company}</Text>
+
+      <Text style={styles.timelinePeriod}>{item.period}</Text>
+
+      <Text style={styles.timelineHint}>Ketuk untuk detail</Text>
+    </View>
+  </TouchableOpacity>
+);
+
+// ============================================
+// APP
+// ============================================
+
+export default function App() {
+  // ==========================================
+  // STATE
+  // ==========================================
+
+  const [openToWork, setOpenToWork] = useState(true);
+
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const [senderName, setSenderName] = useState("");
+
+  const [message, setMessage] = useState("");
+
+  const [sending, setSending] = useState(false);
+
+  const [pressing, setPressing] = useState(false);
+
+  const [downloading, setDownloading] = useState(false);
+
+  const [activeTab, setActiveTab] = useState("Info");
+
+  // ==========================================
+  // ANIMASI AVATAR
+  // ==========================================
+
+  const avatarScale = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(avatarScale, {
+          toValue: 1.08,
+          duration: 900,
+          useNativeDriver: true,
+        }),
+
+        Animated.timing(avatarScale, {
+          toValue: 1,
+          duration: 900,
+          useNativeDriver: true,
+        }),
+      ]),
+    ).start();
+  }, []);
+
+  // ==========================================
+  // ALERT
+  // ==========================================
+
+  const showAlert = (title, message) => {
+    if (Platform.OS === "web") {
+      window.alert(`${title}\n\n${message}`);
+    } else {
+      Alert.alert(title, message);
+    }
+  };
+
+  // ==========================================
+  // SOCIAL MEDIA
+  // ==========================================
+
+  const handleSocialPress = (name, url) => {
+    showAlert(name, url);
+  };
+
+  // ==========================================
+  // DOWNLOAD CV
+  // ==========================================
+
+  const handleDownloadCV = () => {
+    Alert.alert("⬇️ Download", "CV sedang diunduh...");
+  };
+
+  // ==========================================
+  // MODAL RIWAYAT
+  // ==========================================
+
+  const handleCardPress = (item) => {
+    setSelectedItem(item);
+    setModalVisible(true);
+  };
+
+  // ==========================================
+  // KIRIM PESAN
+  // ==========================================
+
+  const handleSend = () => {
+    if (!senderName.trim() || !message.trim()) {
+      showAlert("⚠️ Peringatan", "Nama dan pesan tidak boleh kosong!");
+
+      return;
+    }
+
+    const namaPengirim = senderName.trim();
+
+    setSending(true);
+
+    setTimeout(() => {
+      setSending(false);
+
+      setSenderName("");
+      setMessage("");
+
+      showAlert("✅ Berhasil", `Pesan dari ${namaPengirim} telah terkirim!`);
+    }, 2000);
+  };
+
+  // ==========================================
   // RETURN
   // ==========================================
 
