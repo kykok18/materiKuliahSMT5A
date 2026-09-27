@@ -209,8 +209,6 @@ export default function App() {
 
   const [pressing, setPressing] = useState(false);
 
-  const [downloading, setDownloading] = useState(false);
-
   const [activeTab, setActiveTab] = useState("Info");
 
   // ==========================================
